@@ -1,0 +1,33 @@
+# Phase 1 (Python): YouTube RAG — standalone pipeline
+
+No FastAPI, no React yet. Just prove the pipeline works from the terminal.
+Same architecture as the JS version — React (later) -> FastAPI (later) -> Supabase pgvector -> OpenAI.
+
+## Setup
+1. `python3 -m venv venv && source venv/bin/activate`
+2. `pip install -r requirements.txt`
+3. Run `setup.sql` once in your Supabase project's SQL editor (creates the `chunks` table + `match_chunks` function). Same SQL as the JS version — the DB layer doesn't care which language talks to it.
+4. Copy `.env.example` to `.env` and fill in your real keys.
+
+## Usage
+```
+python src/ingest.py "https://www.youtube.com/watch?v=VIDEO_ID"
+python src/ask.py VIDEO_ID "what does the speaker say about X?"
+```
+
+## Files
+- `src/utils.py` — extracts video ID from any YouTube URL shape
+- `src/transcript.py` — fetches captions via youtube-transcript-api
+- `src/chunk.py` — splits transcript into ~500-word chunks, each tagged with its start timestamp
+- `src/store.py` — embeds chunks (OpenAI), stores/retrieves from Supabase pgvector, generates answers
+- `src/ingest.py` — CLI: run once per video
+- `src/ask.py` — CLI: run per question
+
+## What's NOT handled yet (Phase 3 territory)
+- Videos with no captions (needs Whisper fallback)
+- Very long transcripts (may need summarization before chunking)
+- Rate limiting / cost caps
+
+## Next step: Phase 2
+Wrap this in FastAPI: `POST /ingest` (runs ingest.py's logic, returns video_id),
+`POST /chat` (runs ask.py's logic, returns answer + source timestamps).
