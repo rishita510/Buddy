@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from utils import extract_video_id
-from transcript import fetch_transcript
-from chunk import chunk_transcript
-from store import store_chunks
+from Utils import extract_video_id
+from Transcript import fetch_transcript
+from Chunk import chunk_transcript
+from Store import store_chunks
 
 
 def main():

@@ -1,10 +1,10 @@
-"""Usage: python src/ask.py VIDEO_ID "what does the speaker say about X?" """
+# """Usage: python src/ask.py VIDEO_ID "what does the speaker say about X?" """
 import sys
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from store import answer_question
+from Store import answer_question
 
 
 def main():
