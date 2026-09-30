@@ -132,3 +132,56 @@ def delete_existing_chunks(video_id: str) -> None:
     """Wipes previously stored chunks for a video — call this before
     re-ingesting if you want a clean re-embed (e.g. after changing chunk size)."""
     supabase.table("chunks").delete().eq("video_id", video_id).execute()
+
+
+# --- Thread + message persistence ---
+# These let a conversation survive across script restarts. A "thread" is one
+# saved conversation about one video; "messages" are the individual turns in it.
+from datetime import datetime, timezone
+
+
+def create_thread(video_id: str, title: str = None) -> str:
+    """Creates a new thread and returns its id."""
+    result = supabase.table("threads").insert({
+        "video_id": video_id,
+        "title": title,
+    }).execute()
+    return result.data[0]["id"]
+
+
+def list_threads(video_id: str) -> list[dict]:
+    """Lists all saved threads for a video, most recently updated first."""
+    result = (
+        supabase.table("threads")
+        .select("id, title, created_at, updated_at")
+        .eq("video_id", video_id)
+        .order("updated_at", desc=True)
+        .execute()
+    )
+    return result.data
+
+
+def get_messages(thread_id: str) -> list[dict]:
+    """Fetches a thread's message history in the {role, content} shape
+    answer_with_history() expects."""
+    result = (
+        supabase.table("messages")
+        .select("role, content")
+        .eq("thread_id", thread_id)
+        .order("created_at")
+        .execute()
+    )
+    return result.data
+
+
+def save_message(thread_id: str, role: str, content: str) -> None:
+    """Saves one turn (either the user's question or the assistant's answer)."""
+    supabase.table("messages").insert({
+        "thread_id": thread_id,
+        "role": role,
+        "content": content,
+    }).execute()
+    # bump updated_at so list_threads() sorts recently-active threads first
+    supabase.table("threads").update({
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }).eq("id", thread_id).execute()
