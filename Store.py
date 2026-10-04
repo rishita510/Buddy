@@ -11,22 +11,64 @@ def embed_text(text: str) -> list[float]:
     return res.data[0].embedding
 
 
+def translate_to_english(text: str) -> str:
+    """Translates one transcript chunk to English using gpt-4o-mini.
+ 
+    A domain glossary is included because these videos are ML/RAG tutorials,
+    and generic translation can mishear phonetically-transcribed technical
+    jargon as an unrelated real word (e.g. the Hindi transliteration of
+    "augmentation" getting translated as "argumentation" — a real but
+    completely different word). Giving the model the expected vocabulary
+    up front makes it correct these instead of guessing phonetically.
+    """
+    completion = openai_client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "Translate the following transcript excerpt to English. "
+                    "It may be in Hindi, Hinglish (English technical terms written "
+                    "phonetically in Devanagari), or another language.\n\n"
+                    "This is a tutorial about RAG (Retrieval-Augmented Generation) and "
+                    "LangChain. Common technical terms you should expect and translate "
+                    "accurately, even if the Devanagari transcription is phonetically "
+                    "imperfect: retrieval, augmentation, generation, embedding, embedding "
+                    "model, vector store, vector database, retriever, similarity search, "
+                    "chunk, chunking, chunk size, text splitter, recursive character text "
+                    "splitter, LLM, prompt, context, RAG architecture, RAG pipeline, "
+                    "LangChain, chain, parallel chain, transcript, API, OpenAI.\n\n"
+                    "If a word's phonetic transcription is ambiguous between a technical "
+                    "term from this list and an unrelated real word (e.g. 'augmentation' "
+                    "vs 'argumentation'), prefer the technical term given the ML/RAG context.\n\n"
+                    "Output ONLY the translation, no commentary."
+                ),
+            },
+            {"role": "user", "content": text},
+        ],
+    )
+    return completion.choices[0].message.content
+
+
 def store_chunks(video_id: str, chunks: list[dict]) -> None:
-    """Embeds every chunk and inserts it into Supabase. Runs sequentially —
-    fine for a single video; batch this properly once you're ingesting many
-    videos concurrently."""
+    """Translates each chunk to English, embeds the TRANSLATED version (so
+    similarity search works reliably against English questions), and stores
+    both the original text (for showing what was actually said) and the
+    translation (used for retrieval and as LLM context)."""
     for chunk in chunks:
-        embedding = embed_text(chunk["content"])
+        content_en = translate_to_english(chunk["content"])
+        embedding = embed_text(content_en)  # embed the translation, not the original
         result = supabase.table("chunks").insert({
             "video_id": video_id,
-            "content": chunk["content"],
+            "content": chunk["content"],       # original, for reference/display
+            "content_en": content_en,          # translated, used for retrieval + context
             "start_time": chunk["start_time"],
             "embedding": embedding,
         }).execute()
         if not result.data:
             raise RuntimeError(f"Supabase insert failed for a chunk of video {video_id}")
-
-
+ 
+ 
 def retrieve_relevant_chunks(video_id: str, question: str, match_count: int = 5) -> list[dict]:
     query_embedding = embed_text(question)
     result = supabase.rpc("match_chunks", {
@@ -35,6 +77,7 @@ def retrieve_relevant_chunks(video_id: str, question: str, match_count: int = 5)
         "match_count": match_count,
     }).execute()
     return result.data
+ 
 
 
 def _format_timestamp(seconds: float) -> str:
@@ -44,11 +87,14 @@ def _format_timestamp(seconds: float) -> str:
 
 def answer_question(video_id: str, question: str) -> str:
     relevant_chunks = retrieve_relevant_chunks(video_id, question)
-
+ 
+    # Use content_en (translated) for the LLM's context, not the raw
+    # transcript text — this is what retrieval was matched against, and
+    # it's far more reliable for the model to reason over than Hinglish text.
     context = "\n\n".join(
-        f"[{_format_timestamp(c['start_time'])}] {c['content']}" for c in relevant_chunks
+        f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
     )
-
+ 
     completion = openai_client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -61,36 +107,23 @@ def answer_question(video_id: str, question: str) -> str:
                     "answer, say so plainly instead of guessing."
                 ),
             },
-            {"role": "user", "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}"},
+            {
+                "role": "user",
+                "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
+            },
         ],
     )
-
+ 
     return completion.choices[0].message.content
-
-
-
-
-
-
-
+ 
+ 
 def answer_with_history(video_id: str, question: str, history: list[dict]) -> str:
-    """Like answer_question(), but includes prior conversation turns so the
-    model can resolve follow-ups like 'explain that more' or 'what about X instead'.
-
-    Note: retrieval still runs fresh on just the CURRENT question's text — the
-    RAG lookup itself doesn't "remember" past questions, only the final answer
-    generation step does. This is fine for most follow-ups, but if a follow-up
-    depends heavily on a totally different part of the video than the original
-    question, retrieval may miss it. (A more advanced version would first ask
-    the model to rewrite the follow-up into a standalone question before
-    retrieving — worth doing later if you notice this happening.)
-    """
     relevant_chunks = retrieve_relevant_chunks(video_id, question)
-
+ 
     context = "\n\n".join(
-        f"[{_format_timestamp(c['start_time'])}] {c['content']}" for c in relevant_chunks
+        f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
     )
-
+ 
     messages = [
         {
             "role": "system",
@@ -103,21 +136,21 @@ def answer_with_history(video_id: str, question: str, history: list[dict]) -> st
             ),
         },
     ]
-
-    # replay prior turns so the model has conversational context
     messages.extend(history)
-
     messages.append({
         "role": "user",
         "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
     })
-
+ 
     completion = openai_client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
     )
-
+ 
     return completion.choices[0].message.content
+
+
+
 
 
 
