@@ -1,33 +1,105 @@
-# Phase 1 (Python): YouTube RAG — standalone pipeline
 
-No FastAPI, no React yet. Just prove the pipeline works from the terminal.
-Same architecture as the JS version — React (later) -> FastAPI (later) -> Supabase pgvector -> OpenAI.
+# YouTube RAG Chatbot
+
+Paste a YouTube video link, then ask unlimited questions about it — a RAG (Retrieval-Augmented Generation) pipeline that answers using only what was actually said in the video, with timestamps cited. Supports multiple saved conversation threads per video, like ChatGPT's sidebar.
+
+## How it works
+
+1. **Ingest a video once** — its transcript is fetched, split into chunks, converted into embeddings, and stored in Supabase (Postgres + pgvector).
+2. **Chat about it any number of times** — each question is embedded and matched against the stored chunks to find the most relevant parts of the video, which are fed to an LLM along with your question to generate a grounded answer.
+3. **Conversations persist** — every question and answer is saved to Supabase, so you can close the terminal and resume the exact same conversation later.
+
+## Tech stack
+
+| Piece | Tool |
+|---|---|
+| Transcript fetching | `youtube-transcript-api` |
+| Embeddings (text → vectors) | OpenAI `text-embedding-3-small` |
+| Answer generation | OpenAI `gpt-4o-mini` |
+| Vector storage + search | Supabase (Postgres + pgvector) |
+| Conversation storage | Supabase (Postgres tables) |
+
+No separate vector database — pgvector inside the same Postgres instance handles both relational data (threads, messages) and similarity search.
+
+## Project structure
+
+```
+.
+├── ingest.py           # CLI: run once per new video
+├── chat.py             # CLI: run to start/resume a conversation
+├── utils.py            # extracts video ID from any YouTube URL format
+├── transcript.py       # fetches captions, any available language
+├── chunk.py            # splits transcript into ~500-word overlapping chunks
+├── Store.py            # embeddings, Supabase storage/retrieval, answer generation, thread persistence
+├── setup.sql           # creates the `chunks` table + match_chunks() similarity search function
+├── setup_threads.sql   # creates the `threads` and `messages` tables
+├── check_env.py        # diagnostic: verifies .env is loaded correctly
+├── requirements.txt
+└── .env.example
+```
 
 ## Setup
-1. `python3 -m venv venv && source venv/bin/activate`
-2. `pip install -r requirements.txt`
-3. Run `setup.sql` once in your Supabase project's SQL editor (creates the `chunks` table + `match_chunks` function). Same SQL as the JS version — the DB layer doesn't care which language talks to it.
-4. Copy `.env.example` to `.env` and fill in your real keys.
+
+1. **Install dependencies**
+   ```
+   python3 -m venv venv
+   source venv/bin/activate   # on Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+2. **Set up the database** — in your Supabase project's SQL editor, run, in order:
+   - `setup.sql` (creates `chunks` + the vector search function)
+   - `setup_threads.sql` (creates `threads` + `messages`)
+
+   When prompted about Row Level Security, choose **"Run without RLS"** — this project talks to Supabase only through the service key (which bypasses RLS anyway); RLS becomes relevant later once a frontend connects directly using the public anon key.
+
+3. **Configure environment variables** — copy `.env.example` to `.env` and fill in:
+   ```
+   OPENAI_API_KEY=sk-...
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_KEY=your-service-role-key
+   ```
+   Use the **service_role** key, not the anon key. Run `python check_env.py` to confirm these are being read correctly before proceeding.
 
 ## Usage
+
+**Ingest a video (once per video):**
 ```
-python src/ingest.py "https://www.youtube.com/watch?v=VIDEO_ID"
-python src/ask.py VIDEO_ID "what does the speaker say about X?"
+python ingest.py "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
+If the video was already ingested, you'll be asked whether to skip or re-ingest from scratch.
 
-## Files
-- `src/utils.py` — extracts video ID from any YouTube URL shape
-- `src/transcript.py` — fetches captions via youtube-transcript-api
-- `src/chunk.py` — splits transcript into ~500-word chunks, each tagged with its start timestamp
-- `src/store.py` — embeds chunks (OpenAI), stores/retrieves from Supabase pgvector, generates answers
-- `src/ingest.py` — CLI: run once per video
-- `src/ask.py` — CLI: run per question
+**Chat about it:**
+```
+python chat.py VIDEO_ID
+```
+- If this video has no saved conversations yet, you'll be asked to name a new one.
+- If it does, you'll see a list of existing threads to resume, or the option to start a new one.
+- Type `exit` or `quit` to end the session — everything is already saved as you go, nothing is lost.
 
-## What's NOT handled yet (Phase 3 territory)
-- Videos with no captions (needs Whisper fallback)
-- Very long transcripts (may need summarization before chunking)
-- Rate limiting / cost caps
+## Design notes
 
-## Next step: Phase 2
-Wrap this in FastAPI: `POST /ingest` (runs ingest.py's logic, returns video_id),
-`POST /chat` (runs ask.py's logic, returns answer + source timestamps).
+- **Chunking** uses ~500 words per chunk with a 50-word overlap, so a sentence split across a chunk boundary doesn't lose meaning. Each chunk remembers the timestamp of its first word, which is what lets answers cite "this comes from 4:32 in the video."
+- **Any language is supported** — transcript fetching doesn't restrict to English; it uses whatever caption track YouTube has (preferring manually created over auto-generated), and the LLM handles the rest.
+- **Answers are grounded, not general knowledge** — the system prompt explicitly restricts the model to only using the retrieved transcript excerpts, and to say so plainly if the excerpts don't contain the answer.
+- **Conversation memory works by resending history** — like any LLM chat app (ChatGPT included), the model itself has no memory between calls. Each turn resends the full prior conversation so far, which is why threads persist to Supabase instead of living only in a Python variable.
+
+## Known limitations / not yet built
+
+- **No web server yet** — everything is CLI-only. A FastAPI layer (routes like `/videos`, `/threads`, `/threads/{id}/messages`) is the planned next step to make this usable from a frontend.
+- **No user accounts** — `threads` has no `user_id` column yet; this needs Supabase Auth wired in before this becomes multi-user.
+- **No frontend.**
+- **Videos with no captions at all** aren't handled — a Whisper-based audio transcription fallback is planned but not built.
+- **Conversation history isn't capped** — every message sent to the model includes the entire prior thread, so cost and latency both grow with a thread's length. A sliding-window or summarization strategy is planned but not implemented.
+- **"Watch video" visual mode** (answering questions about on-screen content like equations or diagrams by extracting video frames) is designed but not built.
+- **Notes generation** (a one-shot structured summary of the whole video) is designed but not built.
+
+## Roadmap
+
+1. Cap/summarize conversation history sent per turn
+2. Wrap the pipeline in FastAPI
+3. Add Supabase Auth + `user_id` on threads, with RLS policies
+4. Notes generation feature
+5. "Watch video" visual Q&A mode
+6. Frontend
+7. Deployment (frontend → Vercel, backend → Render/Railway, DB → Supabase)
