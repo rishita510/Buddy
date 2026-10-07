@@ -58,8 +58,9 @@ No separate vector database — pgvector inside the same Postgres instance handl
    OPENAI_API_KEY=sk-...
    SUPABASE_URL=https://your-project.supabase.co
    SUPABASE_SERVICE_KEY=your-service-role-key
+   SUPABASE_ANON_KEY=your-anon-key
    ```
-   Use the **service_role** key, not the anon key. Run `python check_env.py` to confirm these are being read correctly before proceeding.
+   Use the **service_role** key for database operations and the **anon** key for Supabase Auth. Run `python check_env.py` to confirm these are being read correctly before proceeding. If email confirmation is enabled in Supabase Auth, new users must follow the confirmation link before logging in.
 
 ## Usage
 
