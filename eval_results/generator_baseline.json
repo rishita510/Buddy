@@ -1,0 +1,744 @@
+{
+  "judge": "gpt-4o-mini",
+  "summary": {
+    "Faithfulness": {
+      "mean": 0.971,
+      "pass_rate": 0.947,
+      "n": 38
+    },
+    "Answer Relevancy": {
+      "mean": 0.928,
+      "pass_rate": 0.895,
+      "n": 38
+    },
+    "Correctness [GEval]": {
+      "mean": 0.748,
+      "pass_rate": 0.737,
+      "n": 38
+    }
+  },
+  "rows": [
+    {
+      "question": "What problem is the YouTube Chat RAG system designed to solve?",
+      "answer": "The YouTube Chat RAG system is designed to solve the problem of allowing users to interact in real time with a YouTube video, enabling them to ask whether a topic was discussed, request a summary, or clarify specific points in a lecture. This enhances the viewing experience by providing a means of engagement and information retrieval during the video. This is indicated in the excerpt from timestamp [~1:02-2:43].",
+      "context": [
+        "[~1:02-2:43] The speaker proposes a RAG-based system that lets users chat with a YouTube video in real time, ask whether a topic was discussed, request a five-bullet summary, or clarify a point in a lecture."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the YouTube Chat RAG system without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6874092664031238,
+        "reason": "The actual output captures the essence of the expected output by explaining the functionality of the YouTube Chat RAG system, including user interaction and information retrieval. However, it lacks the specific mention of the benefit for long videos like podcasts and lectures, which is a key detail in the expected output. There are no contradictions or unsupported claims, but the omission of this specific context slightly reduces the alignment."
+      }
+    },
+    {
+      "question": "What two user-interface options does the speaker suggest for the YouTube Chat project?",
+      "answer": "The speaker suggests two user-interface options for the YouTube Chat project: a Chrome extension that opens a chat interface while a video plays, and a Streamlit website where the user submits a YouTube link and then chats about the video. This information can be found in the timestamps [~2:55-4:22; 33:44-34:22].",
+      "context": [
+        "[~2:55-4:22; 33:44-34:22] The speaker suggests building either a Chrome extension that opens a chat interface while a video plays or a Streamlit website where the user submits a YouTube link and then chats about the video."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.75,
+        "reason": "The score is 0.75 because while the response includes relevant information about user-interface options, it also includes timestamps that do not directly address the user's question, which detracts from the overall relevance."
+      },
+      "Correctness [GEval]": {
+        "score": 0.90241276897261,
+        "reason": "The actual output closely aligns with the expected output, accurately describing the two user-interface options for the YouTube Chat project. It includes all key facts from the expected output, such as the Chrome extension and Streamlit website, and provides additional context with timestamps. However, the phrasing is slightly more detailed than necessary, which is the only minor deviation."
+      }
+    },
+    {
+      "question": "Where does the speaker initially build the RAG system, and why?",
+      "answer": "The speaker initially builds the RAG system inside Google Colab because he will not concentrate much on the UI. This is mentioned in the excerpt from [~3:56-4:30].",
+      "context": [
+        "[~3:56-4:30] The speaker says that because the focus is RAG, he will not concentrate much on the UI and will build the system inside Google Colab."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.5,
+        "reason": "The score is 0.50 because the response fails to address the specific location and reasons for building the RAG system, which are crucial to the question asked."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8756919838334399,
+        "reason": "The actual output closely aligns with the expected output, accurately stating that the speaker builds the RAG system in Google Colab due to a focus on functionality over UI. However, it includes a reference to a specific time in the video, which, while informative, is not present in the expected output. This slight deviation prevents a perfect score."
+      }
+    },
+    {
+      "question": "Why does the speaker choose the YouTube Transcript API instead of LangChain's YouTube loader?",
+      "answer": "The speaker chooses the YouTube Transcript API instead of LangChain's YouTube loader because the loader was somewhat buggy; it worked correctly for some videos but failed for others. This is mentioned in the excerpt [~5:53-6:29].",
+      "context": [
+        "[~5:53-6:29] The speaker explains that the LangChain YouTube loader was somewhat buggy: it worked correctly for some videos but the code failed for others. He therefore uses the YouTube Transcript API."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the speaker's choice of the YouTube Transcript API over LangChain's YouTube loader without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8507395407588124,
+        "reason": "The actual output accurately reflects the choice of the YouTube Transcript API over LangChain's loader due to its inconsistent performance, aligning well with the expected output. However, it introduces a specific time reference [~5:53-6:29] that is not present in the expected output, which could be seen as an unsupported claim. Overall, the key facts are represented, but the additional detail slightly detracts from the alignment."
+      }
+    },
+    {
+      "question": "What two inputs does the demonstrated transcript-fetching function require?",
+      "answer": "The demonstrated transcript-fetching function requires the video ID and the language in which the transcript is required. [~10:43-11:03]",
+      "context": [
+        "[~10:43-11:03] The speaker says to provide the video ID and specify the language in which the transcript is required."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the two inputs required for the transcript-fetching function without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.5162395225067802,
+        "reason": "The actual output partially aligns with the expected output by mentioning the need for a video ID and transcript language. However, it introduces unnecessary detail about a time range, which is not present in the expected output, leading to a lack of clarity and focus. Additionally, while it captures the essence of the expected output, it does not fully match the phrasing or completeness of the expected content."
+      }
+    },
+    {
+      "question": "Why might requesting an English transcript fail for a Hindi YouTube video?",
+      "answer": "Requesting an English transcript might fail for a Hindi YouTube video because the selected video does not have an English transcript available. This is indicated in the transcript excerpt at [~13:13-13:47], where the speaker encounters an error for the English transcript and responds by changing the requested language to Hindi, which successfully loads the Hindi transcript.",
+      "context": [
+        "[~13:13-13:47] The speaker demonstrates an error indicating that the selected video does not have an English transcript, then changes the requested language to Hindi and successfully loads the Hindi transcript."
+      ],
+      "Faithfulness": {
+        "score": 0.6666666666666666,
+        "reason": "The score is 0.67 because the actual output incorrectly implies that an error was encountered regarding the English transcript, while the retrieval context only states that no English transcript is available, indicating a misunderstanding of the information."
+      },
+      "Answer Relevancy": {
+        "score": 0.8,
+        "reason": "The score is 0.80 because while the response provided relevant information about the Hindi transcript, it failed to directly address the reasons for potential failure in requesting an English transcript, which is the core of the question."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7597222351812707,
+        "reason": "The actual output accurately conveys the main idea that an English transcript may not be available and that the speaker switches to Hindi when encountering an error. However, it includes additional details about the specific time in the video and the error encountered, which, while informative, are not necessary for alignment with the expected output. Overall, it captures the key facts but adds some extraneous information."
+      }
+    },
+    {
+      "question": "Which text splitter and settings does the speaker demonstrate?",
+      "answer": "The speaker demonstrates the RecursiveCharacterTextSplitter with a chunk size of 1,000 and a chunk overlap of 200. This configuration produces 168 chunks. [~14:47-15:46]",
+      "context": [
+        "[~14:47-15:46] The speaker says the transcript is split using RecursiveCharacterTextSplitter, with chunk size 1,000 and chunk overlap 200. The example produces 168 chunks."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the text splitter and settings without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7092027659251527,
+        "reason": "The actual output accurately describes the RecursiveCharacterTextSplitter with the correct chunk size and overlap, aligning with the expected output. However, it includes additional information about the number of chunks produced, which is not present in the expected output. This extra detail, while informative, introduces a slight deviation from the expected content."
+      }
+    },
+    {
+      "question": "How many chunks does the speaker report after splitting the example transcript?",
+      "answer": "The speaker reports that 168 chunks have been created after applying the text splitter to the long podcast transcript [~15:08-15:46].",
+      "context": [
+        "[~15:08-15:46] After applying the text splitter to the long podcast transcript, the speaker says that 168 chunks have been created."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8123694723975428,
+        "reason": "The actual output accurately reports the number of chunks created (168) and aligns with the expected output. However, it includes additional information about the text splitter and the podcast transcript duration, which, while not contradictory, is not necessary for the core message. This extra detail slightly detracts from the alignment with the expected output."
+      }
+    },
+    {
+      "question": "Which embedding provider and vector store are used in the code demonstration?",
+      "answer": "The embedding provider used in the code demonstration is OpenAI, and the vector store utilized is FAISS. This information can be found in the timestamp [~15:53-16:52].",
+      "context": [
+        "[~15:53-16:52] The speaker selects an OpenAI embeddings model and uses FAISS to store the embedded transcript chunks."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addressed the question about the embedding provider and vector store without including any irrelevant information."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8080129888414713,
+        "reason": "The actual output accurately identifies the embedding provider as OpenAI and the vector store as FAISS, aligning well with the expected output. However, the phrasing differs slightly, and the actual output includes a timestamp reference that is not present in the expected output, which could be seen as unnecessary detail. Overall, the key facts are represented correctly."
+      }
+    },
+    {
+      "question": "What tasks make up the indexing stage in the demonstrated RAG pipeline?",
+      "answer": "The tasks that make up the indexing stage in the demonstrated RAG pipeline are loading the document or transcript, splitting the text, embedding the chunks, and storing them in the vector store. This is summarized in the excerpt from ~6:37-7:13 and 16:52-17:06.",
+      "context": [
+        "[~6:37-7:13; 16:52-17:06] The speaker summarizes indexing as loading the document or transcript, splitting the text, embedding the chunks, and storing them in the vector store."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8267207161936563,
+        "reason": "The actual output closely aligns with the expected output, accurately listing the tasks involved in the indexing stage of the RAG pipeline. However, it includes additional details about the timing of the excerpts, which, while informative, are not present in the expected output. This slight deviation prevents a perfect score."
+      }
+    },
+    {
+      "question": "What does the retriever receive as input and return as output?",
+      "answer": "The retriever receives a query as input and returns a list of documents as output. [~18:50-19:11]",
+      "context": [
+        "[~18:50-19:11] The speaker explicitly states that the retriever takes a query as input and returns a list of documents as output."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7109259180648876,
+        "reason": "The actual output correctly describes the process of receiving a query and returning documents, aligning with the expected output. However, it lacks the specificity of 'relevant documents or chunks,' which is a key detail in the expected output. There are no contradictions or unsupported claims, but the omission of 'relevant' slightly diminishes the completeness of the response."
+      }
+    },
+    {
+      "question": "How many documents does the example similarity-search retriever return, and why?",
+      "answer": "The example similarity-search retriever returns four documents because it is configured to return the four most similar vectors/documents. This is mentioned in the excerpt at [~17:41-18:50].",
+      "context": [
+        "[~17:41-18:50] The speaker creates a similarity-search retriever and configures it to return the four most similar vectors/documents."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the number of documents returned by the similarity-search retriever and provides a clear explanation for it."
+      },
+      "Correctness [GEval]": {
+        "score": 0.932970203658386,
+        "reason": "The actual output accurately reflects the expected output by stating that the retriever returns four documents due to its configuration. It aligns well with the factual content and does not present any contradictions or unsupported claims. However, the reference to the excerpt adds unnecessary detail that is not present in the expected output, slightly detracting from its conciseness."
+      }
+    },
+    {
+      "question": "What does the prompt instruct the LLM to do when the supplied context is insufficient?",
+      "answer": "The prompt instructs the LLM to say \"I don't know\" when the supplied context is insufficient. This is indicated in the excerpt from ~19:32-20:03.",
+      "context": [
+        "[~19:32-20:03] The prompt template says: answer only from the provided transcript context; if the context is insufficient, just say you don't know."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8360857021470901,
+        "reason": "The actual output accurately conveys the instruction for the LLM to say 'I don't know' when context is insufficient, aligning well with the expected output. However, it includes additional details about the timing of the instruction, which, while informative, is not necessary for the core comparison. Overall, it captures the essential message effectively."
+      }
+    },
+    {
+      "question": "What two input variables does the prompt template require?",
+      "answer": "The prompt template requires two input variables: context and question. [~19:44-20:11]",
+      "context": [
+        "[~19:44-20:11] The speaker describes the prompt template as having two input variables: context and question."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no irrelevant statements in the output, making it fully relevant to the input question."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7616475449412917,
+        "reason": "The actual output correctly identifies the required input variables as 'context' and 'question', aligning with the expected output. However, the inclusion of the timestamp [~19:44-20:11] introduces unnecessary information that is not present in the expected output, which slightly detracts from its clarity and conciseness."
+      }
+    },
+    {
+      "question": "Why does the code concatenate the retrieved documents before passing them to the prompt?",
+      "answer": "The code concatenates the retrieved documents before passing them to the prompt because the four retrieved documents cannot simply be supplied as separate items; instead, their page contents need to be combined into a single context string to provide the necessary context for the prompt. This explanation is found in the timestamp [~20:46-22:04].",
+      "context": [
+        "[~20:46-22:04] The speaker explains that the four retrieved documents cannot simply be supplied as separate items to this prompt; their page contents are concatenated into a single context string."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about code concatenation without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6968641517981922,
+        "reason": "The actual output correctly explains the need to concatenate the retrieved documents into a single context string, aligning with the expected output's emphasis on joining the contents. However, it introduces unnecessary detail about the timestamp, which is not present in the expected output, and could be seen as an unsupported claim. Overall, the key facts are represented, but the additional information detracts slightly from the clarity and focus of the response."
+      }
+    },
+    {
+      "question": "What are the four main stages of the RAG workflow described in the video?",
+      "answer": "The four main stages of the RAG workflow described in the video are indexing the transcript, storing embeddings, retrieving relevant chunks, and generating the response with the LLM. This is mentioned in the excerpt from ~7:03-8:43.",
+      "context": [
+        "[~7:03-8:43; 24:10-24:28] The speaker describes indexing the transcript and storing embeddings, retrieving relevant chunks, combining the context with the query in a prompt (called augmentation in the video), and generating the response with the LLM."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the four main stages of the RAG workflow without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.3082293147692242,
+        "reason": "The actual output identifies stages of the RAG workflow but does not align with the expected output, which lists 'indexing, retrieval, augmentation, and generation.' The actual output includes 'storing embeddings' and 'generating the response with the LLM,' which are not part of the expected output. This indicates a lack of alignment with the factual content and key facts from the expected output."
+      }
+    },
+    {
+      "question": "Why does the speaker combine the individual RAG components into a LangChain chain?",
+      "answer": "The speaker combines the individual RAG components into a LangChain chain because manually calling each stage is not ideal. By creating a chain, each component's output can automatically become the next component's input, allowing the full pipeline to run with one invoke call [~24:22-25:13].",
+      "context": [
+        "[~24:22-25:13] The speaker says that manually calling each stage is not ideal and proposes a chain so each component's output automatically becomes the next component's input, allowing the full pipeline to run with one invoke call."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the speaker's reasoning for combining RAG components into a LangChain chain without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7015292895336837,
+        "reason": "The actual output captures the essence of the expected output by explaining the benefit of combining RAG components into a LangChain chain for streamlined execution. However, it introduces additional details about the process that are not present in the expected output, which could be seen as unnecessary elaboration. While it aligns well with the main idea, the slight deviation from the concise nature of the expected output affects its overall alignment."
+      }
+    },
+    {
+      "question": "Which LangChain components are used to build the parallel chain?",
+      "answer": "The LangChain components used to build the parallel chain are RunnableParallel, RunnablePassthrough, and RunnableLambda, as mentioned in the excerpt from [~27:25-29:25].",
+      "context": [
+        "[~27:25-29:25] The speaker names RunnableParallel for parallel processing, RunnablePassthrough to preserve the question, and RunnableLambda to wrap the document-formatting function."
+      ],
+      "Faithfulness": {
+        "score": 0.5,
+        "reason": "The score is 0.50 because the actual output fails to mention the components that are crucial to understanding the context, as highlighted in the contradiction."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addressed the question about LangChain components used to build the parallel chain without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6567671372752973,
+        "reason": "The actual output correctly identifies the components used to build the parallel chain, aligning with the expected output. However, it includes additional context about the source of the information, which is not present in the expected output. This extra detail does not contradict the expected output but slightly diverges from the simplicity of the expected response."
+      }
+    },
+    {
+      "question": "What does the `format_docs` function do in the chain?",
+      "answer": "The `format_docs` function receives retrieved documents, extracts their text, concatenates it, and returns the result [~27:59-29:42].",
+      "context": [
+        "[~27:59-29:42] The speaker wraps the document-merging code in a function named format_docs. It receives retrieved documents, extracts their text, concatenates it, and returns the result."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the `format_docs` function without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8088750045810738,
+        "reason": "The actual output accurately describes the function's purpose of extracting text and concatenating it, which aligns well with the expected output. However, it includes a reference to a time stamp [~27:59-29:42] that is not present in the expected output, which could be seen as an unsupported claim. Overall, the key facts are represented, but the inclusion of the timestamp detracts slightly from the alignment."
+      }
+    },
+    {
+      "question": "What does RunnablePassthrough do in the demonstrated parallel chain?",
+      "answer": "RunnablePassthrough is used in the question branch of the demonstrated parallel chain to ensure that the input question is also available as an output. This allows the original question to be accessible alongside any other processing that occurs in the parallel chain. [~29:42-30:50]",
+      "context": [
+        "[~29:42-30:50] The speaker explains that the question branch uses RunnablePassthrough because the input question should also be available as an output of the parallel chain."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about RunnablePassthrough without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6969758314176013,
+        "reason": "The actual output accurately describes the function of RunnablePassthrough in the context of the question branch, aligning with the expected output's emphasis on passing the original question unchanged. However, it introduces additional details about the processing in the parallel chain that are not present in the expected output, which slightly detracts from its alignment."
+      }
+    },
+    {
+      "question": "What components make up the main generation chain after the parallel chain?",
+      "answer": "The main generation chain is made up of a prompt template, LLM (Language Model), and a StrOutputParser. This is stated in the excerpt from [~31:03-31:39].",
+      "context": [
+        "[~31:03-31:39] The speaker creates a StrOutputParser to return a string and connects the prompt template, LLM, and parser as the main chain."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.5,
+        "reason": "The score is 0.50 because the output mentions an excerpt without delivering relevant details about the components of the main generation chain, which is crucial to fully addressing the input question."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7408697012868077,
+        "reason": "The actual output accurately identifies the components of the generation chain, aligning well with the expected output. However, it includes an unnecessary reference to a timestamp, which is not present in the expected output. This addition does not contradict the expected content but introduces an element that could be seen as extraneous."
+      }
+    },
+    {
+      "question": "Which four RAG evaluation metrics does the speaker mention?",
+      "answer": "The four RAG evaluation metrics mentioned by the speaker are faithfulness, answer relevancy, context precision, and context recall [~34:54-35:52].",
+      "context": [
+        "[~34:54-35:52] The speaker lists faithfulness, answer relevancy, context precision, and context recall as metrics supported by RAGAS."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the four RAG evaluation metrics without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8308779410541908,
+        "reason": "The actual output accurately lists the four RAG evaluation metrics as specified in the expected output, demonstrating strong alignment. However, the inclusion of the timestamp reference may be seen as unnecessary detail, which slightly detracts from the conciseness expected in the output."
+      }
+    },
+    {
+      "question": "How does the speaker distinguish context precision from context recall?",
+      "answer": "The speaker distinguishes context precision as measuring how useful the retrieved context is for answering, while context recall measures whether the useful information in the vector store was retrieved. This distinction highlights their different focuses: one on usefulness and the other on retrieval completeness. [~35:26-35:52]",
+      "context": [
+        "[~35:26-35:52] The speaker describes context precision as measuring how useful the retrieved context is for answering, and context recall as measuring whether the useful information in the vector store was retrieved."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the distinction between context precision and context recall without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7902967476589914,
+        "reason": "The actual output accurately describes the concepts of context precision and context recall, aligning well with the expected output. However, it introduces additional detail about their different focuses, which, while informative, is not present in the expected output. This slight deviation from the expected content prevents a perfect score."
+      }
+    },
+    {
+      "question": "What is LangSmith used for in the context of this RAG pipeline?",
+      "answer": "LangSmith is used for tracing in the context of the RAG pipeline. Tracers can be added at different stages to inspect whether the pipeline is functioning correctly [~35:58-36:17].",
+      "context": [
+        "[~35:58-36:17] The speaker says LangSmith can be used for tracing and that tracers can be added at different stages to inspect whether the pipeline is functioning correctly."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about LangSmith's use in the RAG pipeline without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8197886714097422,
+        "reason": "The actual output accurately describes LangSmith as a tracing tool used in the RAG pipeline, aligning well with the expected output. However, it includes a specific time reference that is not present in the expected output, which could be seen as an unsupported claim. Overall, the key facts are represented, but the additional detail slightly detracts from the alignment."
+      }
+    },
+    {
+      "question": "What two transcript-ingestion improvements does the speaker suggest for imperfect or non-English transcripts?",
+      "answer": "The speaker suggests two improvements for imperfect or non-English transcripts: fixing errors in automatically generated transcripts and translating Hindi or other-language transcripts into English during document ingestion. This is referenced in the excerpt from [~36:34-37:14].",
+      "context": [
+        "[~36:34-37:14] The speaker notes that automatically generated transcripts can contain errors and suggests fixing them. He also suggests translating Hindi or other-language transcripts into English during document ingestion."
+      ],
+      "Faithfulness": {
+        "score": 0.75,
+        "reason": "The score is 0.75 because the actual output claims 'two improvements', but the retrieval context only confirms one improvement (fixing errors) and merely suggests a second without clearly stating it as a separate improvement."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the input question without any irrelevant statements, providing a clear and focused answer."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8155879304890213,
+        "reason": "The actual output closely aligns with the expected output, accurately capturing the two suggested improvements. However, it includes additional context about the reference time, which, while informative, is not necessary for the core message. There are no contradictions or unsupported claims present."
+      }
+    },
+    {
+      "question": "What limitation of RecursiveCharacterTextSplitter motivates the suggestion to use a semantic chunker?",
+      "answer": "The limitation of RecursiveCharacterTextSplitter that motivates the suggestion to use a semantic chunker is that it can divide text in the middle of a paragraph. This could disrupt the flow and meaning of the text, making a semantic chunker a better alternative. This is mentioned in the excerpt from [~37:14-37:35].",
+      "context": [
+        "[~37:14-37:35] The speaker explains that recursive character splitting can divide text in the middle of a paragraph and suggests trying a semantic chunker."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.75,
+        "reason": "The score is 0.75 because the output mentions an excerpt without directly addressing the limitations of RecursiveCharacterTextSplitter or the rationale for using a semantic chunker, which are central to the question."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6473163088921146,
+        "reason": "The actual output captures the main idea of the expected output regarding the limitation of RecursiveCharacterTextSplitter and the suggestion of a semantic chunker. However, it includes additional details that are not present in the expected output, such as the specific time reference [~37:14-37:35], which may not be necessary. While the core message aligns, the extra information could be seen as an unsupported claim, slightly detracting from the overall alignment."
+      }
+    },
+    {
+      "question": "What is query rewriting intended to improve before retrieval?",
+      "answer": "Query rewriting is intended to improve the clarity and meaningfulness of user questions before retrieval, as improving the query can enhance the retrieval process ([~38:06-38:26]).",
+      "context": [
+        "[~38:06-38:26] The speaker suggests using an LLM to rewrite a query because user questions can be vague or not very meaningful; improving the query can improve retrieval."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about query rewriting and its intended improvements without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7211515515480108,
+        "reason": "The actual output captures the essence of the expected output by discussing the improvement of user queries for better retrieval. However, it lacks the specific mention of 'vague or poorly phrased' queries, which is a key detail in the expected output. There are no contradictions or unsupported claims, but the omission of specific phrasing slightly reduces alignment."
+      }
+    },
+    {
+      "question": "What is multi-query generation in the video?",
+      "answer": "Multi-query generation in the video refers to the process of creating multiple queries from a single query. This approach captures different perspectives and enhances the retrieval of relevant information. This is explained in the excerpt from timestamps [~38:26-38:44].",
+      "context": [
+        "[~38:26-38:44] The speaker explains that multiple queries can be generated from one query, capturing different perspectives and improving retrieval."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about multi-query generation in the video without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8123282352884429,
+        "reason": "The actual output accurately describes the process of multi-query generation and aligns well with the expected output. It captures the essence of creating multiple queries from a single query to enhance information retrieval. However, it lacks the mention of improving retrieval specifically when the original query is vague, which is a key detail in the expected output."
+      }
+    },
+    {
+      "question": "What is hybrid retrieval, according to the speaker?",
+      "answer": "According to the speaker, hybrid retrieval refers to the combination of semantic search and keyword search, with their results merged. This is mentioned in the excerpt from timestamps [~39:15-39:29].",
+      "context": [
+        "[~39:15-39:29] The speaker says the current example uses semantic search only, but semantic search and keyword search can be combined and their results merged."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about hybrid retrieval without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8186927121120476,
+        "reason": "The actual output accurately describes hybrid retrieval as a combination of semantic and keyword search, aligning well with the expected output. However, it includes additional context about the source of the information (timestamps), which, while informative, is not necessary for the core definition. This slight deviation from conciseness prevents a perfect score."
+      }
+    },
+    {
+      "question": "What is reranking intended to do in the retrieval pipeline?",
+      "answer": "Reranking is intended to create a new ranking of retrieved documents using a large language model (LLM) based on the similarity score. This is explained in the excerpt from the timestamp [~39:29-39:55].",
+      "context": [
+        "[~39:29-39:55] The speaker explains that current results are ordered by similarity score and that reranking uses an LLM to create a new ranking of retrieved documents."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about reranking in the retrieval pipeline without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7588622646198828,
+        "reason": "The actual output accurately describes the purpose of reranking and mentions the use of a large language model, which aligns well with the expected output. However, it lacks the emphasis on improving the order of relevance and retrieval performance, which is a key detail in the expected output. Overall, the factual content is mostly aligned, with minor omissions."
+      }
+    },
+    {
+      "question": "What is contextual compression intended to remove?",
+      "answer": "Contextual compression is intended to remove content that is not useful, thereby reducing wasted prompt space. This is indicated in the excerpt at timestamp [~39:55-40:24].",
+      "context": [
+        "[~39:55-40:24] The speaker describes contextual compression as retaining the meaningful parts of retrieved documents and removing content that is not useful, reducing wasted prompt space."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.6666666666666666,
+        "reason": "The score is 0.67 because the output included an irrelevant statement about a specific timestamp that did not address the core question of what contextual compression is intended to remove."
+      },
+      "Correctness [GEval]": {
+        "score": 0.651461045176081,
+        "reason": "The actual output captures the essence of the expected output by explaining the purpose of contextual compression, but it lacks the specific mention of 'retrieved documents' and does not explicitly state that it retains 'meaningful portions.' This results in a partial alignment with the expected content."
+      }
+    },
+    {
+      "question": "What does answer grounding mean in the video?",
+      "answer": "In the video, answer grounding means telling the LLM to answer only from the context and not create facts independently or hallucinate. This is mentioned in the timestamp [~40:49-41:15].",
+      "context": [
+        "[~40:49-41:15] The speaker says answer grounding means telling the LLM to answer only from the context and not create facts independently or hallucinate."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about answer grounding in the video without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.794231206931134,
+        "reason": "The actual output accurately conveys the concept of answer grounding and aligns well with the expected output by emphasizing the importance of using the provided context. However, it includes a specific timestamp that is not present in the expected output, which slightly detracts from its alignment. Overall, the key facts are represented, and there are no contradictions or unsupported claims."
+      }
+    },
+    {
+      "question": "Why is context-window optimization useful?",
+      "answer": "Context-window optimization is useful because LLMs can only process a limited number of tokens. By trimming the retrieved context, it ensures that only the most relevant and useful content remains within the context-window limit, allowing for more effective processing and understanding by the model. This is explained in the excerpt from ~41:15-41:57.",
+      "context": [
+        "[~41:15-41:57] The speaker explains that LLMs can process only a limited number of tokens and suggests trimming retrieved context so useful content remains within the context-window limit."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about context-window optimization without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7282217809650302,
+        "reason": "The actual output accurately describes the concept of context-window optimization and its relevance to LLMs' token limits, aligning well with the expected output. However, it introduces additional details about effective processing and understanding that are not present in the expected output, which slightly detracts from its alignment. Overall, the key facts are represented, but the extra information could be seen as unnecessary."
+      }
+    },
+    {
+      "question": "What does answer with citation mean in this RAG discussion?",
+      "answer": "In the RAG discussion, answering with citation means instructing the LLM to indicate which part of the context supports its answer. This is described as providing citations during the generation process, which helps to link the answer back to the original material. This explanation can be found in the excerpt from [~42:04-42:23].",
+      "context": [
+        "[~42:04-42:23] The speaker suggests instructing the LLM to indicate which part of the context supports an answer, describing this as citations during generation."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the question about the meaning of 'answer with citation' in the RAG discussion without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.8080545064407356,
+        "reason": "The actual output effectively explains the concept of providing citations in the RAG discussion and aligns well with the expected output by indicating that the model should link its answer to the original material. However, it includes a specific time reference that is not present in the expected output, which could be seen as an unsupported claim. Overall, the key facts are represented, but the additional detail slightly detracts from the alignment."
+      }
+    },
+    {
+      "question": "How does multimodal RAG differ from the text-only RAG system demonstrated?",
+      "answer": "The multimodal RAG system differs from the text-only RAG system in that it can process not only text but also images and videos, while the current system only works with text. This distinction highlights the expanded capabilities of a multimodal RAG system compared to the text-only version. [~43:03-43:31]",
+      "context": [
+        "[~43:03-43:31] The speaker says the current system works only with text, while a multimodal RAG system can process images, text, and videos."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the differences between multimodal RAG and text-only RAG without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7439731383361817,
+        "reason": "The actual output accurately describes the multimodal RAG system's ability to process images and videos, which aligns with the expected output's mention of multiple modalities. However, it lacks the explicit mention of handling text input and output, which is a key detail in the expected output, leading to a slight deduction in the score."
+      }
+    },
+    {
+      "question": "What makes agentic RAG different from a chatbot that only answers questions?",
+      "answer": "Agentic RAG is different from a traditional chatbot because it operates like an AI agent that can browse the internet through a web application to gather additional information when needed to answer a question, whereas a typical chatbot only provides answers based on pre-existing knowledge without the capability to search for new information. This distinction is noted in the excerpt [~43:31-44:20].",
+      "context": [
+        "[~43:31-44:20] The speaker explains that agentic RAG operates like an AI agent and may browse the internet through a web application when additional information is needed to answer a question."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because the response directly addresses the differences between agentic RAG and traditional chatbots without any irrelevant statements."
+      },
+      "Correctness [GEval]": {
+        "score": 0.6315864856940976,
+        "reason": "The actual output correctly identifies that Agentic RAG can browse the internet to gather information, which aligns with the expected output's mention of performing additional tasks. However, it lacks details about combining results with context and generating an answer, which are key aspects of the expected output. There are no contradictions, but the actual output does not fully encompass all key facts presented in the expected output."
+      }
+    },
+    {
+      "question": "What is the purpose of memory-based RAG?",
+      "answer": "The purpose of the memory-based RAG system is to remember what a user asked previously, such as a week earlier, and utilize that previous conversational context to inform later answers. This enhances the efficiency and relevance of the responses provided to the user. This information can be found in the excerpt at timestamp [~44:20-44:45].",
+      "context": [
+        "[~44:20-44:45] The speaker describes a memory-based RAG system that can remember what a user asked a week earlier and use that previous conversational context in a later answer."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.8,
+        "reason": "The score is 0.80 because the output included a reference to a specific timestamp for information, which does not directly address the purpose of memory-based RAG. This detracted from the overall relevance, but the core explanation of memory-based RAG was still adequately covered."
+      },
+      "Correctness [GEval]": {
+        "score": 0.7527104016631043,
+        "reason": "The actual output accurately describes the purpose of the memory-based RAG system and aligns with the expected output by emphasizing the use of previous conversations to inform later answers. However, it includes additional details about efficiency and relevance that are not present in the expected output, which slightly detracts from its alignment."
+      }
+    },
+    {
+      "question": "Does the speaker plan to cover all advanced RAG techniques in the current LangChain playlist?",
+      "answer": "No, the speaker clarifies that not all advanced techniques will be covered in the current LangChain playlist, and a separate Advanced RAG playlist is planned afterward. [~45:17-45:43]",
+      "context": [
+        "[~45:17-45:43] The speaker clarifies that the advanced techniques mentioned will not all be covered in the current LangChain playlist; a separate Advanced RAG playlist is planned afterward."
+      ],
+      "Faithfulness": {
+        "score": 1.0,
+        "reason": "The score is 1.00 because there are no contradictions present, indicating that the actual output aligns perfectly with the retrieval context."
+      },
+      "Answer Relevancy": {
+        "score": 0.5,
+        "reason": "The score is 0.50 because the output includes a statement that contradicts the input question by indicating that not all advanced techniques will be covered, which is irrelevant to the inquiry about the speaker's plans."
+      },
+      "Correctness [GEval]": {
+        "score": 0.698109230632044,
+        "reason": "The actual output correctly states that not all advanced techniques will be covered in the current playlist and mentions a separate Advanced RAG playlist, which aligns with the expected output. However, it lacks the clarity of stating that these techniques will be covered after the LangChain playlist, which is a key detail in the expected output. Overall, it captures the main idea but misses some precision."
+      }
+    }
+  ]
+}

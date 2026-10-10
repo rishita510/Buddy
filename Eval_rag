@@ -1,0 +1,41 @@
+# """End to end: real retrieval + real generation, all metrics together.
+# Compare with eval_retriever / eval_generator to see which stage loses the points.
+
+# Usage: python eval_rag.py --video VIDEO_ID [--tag baseline] [--limit 5]
+# """
+# from eval_common import K, generation_metrics, load_golden, parse_args, retrieval_metrics, score
+# from Store import rag_answer
+# from deepeval.test_case import LLMTestCase
+
+# args = parse_args("Evaluate the full RAG pipeline.")
+# cases = []
+# for it in load_golden(args):
+#     answer, chunks = rag_answer(it["video_id"], it["question"], k=K)
+#     cases.append(LLMTestCase(input=it["question"], actual_output=answer,
+#                              expected_output=it["expected_output"],
+#                              retrieval_context=[c["content_en"] for c in chunks]))
+
+# score("rag", cases, retrieval_metrics() + generation_metrics(), args.tag)
+
+
+
+"""End to end: real retrieval + real generation, all metrics together.
+Compare with eval_retriever / eval_generator to see which stage loses the points.
+
+Usage: python eval_rag.py --video VIDEO_ID [--tag baseline] [--limit 5]
+"""
+from Eval_common import (K, generation_metrics, load_golden, parse_args, require_chunks,
+                         retrieval_metrics, score)
+from Store import rag_answer
+from deepeval.test_case import LLMTestCase
+
+args = parse_args("Evaluate the full RAG pipeline.")
+cases = []
+for it in load_golden(args, need_video=True):
+    answer, chunks = rag_answer(it["video_id"], it["question"], k=K)
+    require_chunks(chunks, it)
+    cases.append(LLMTestCase(input=it["question"], actual_output=answer,
+                             expected_output=it["expected_output"],
+                             retrieval_context=[c["content_en"] for c in chunks]))
+
+score("rag", cases, retrieval_metrics() + generation_metrics(), args.tag)

@@ -128,69 +128,114 @@ def _format_timestamp(seconds: float) -> str:
     return f"{m}:{s:02d}"
 
 
-def answer_question(video_id: str, question: str) -> str:
-    relevant_chunks = retrieve_relevant_chunks(video_id, question)
+# def answer_question(video_id: str, question: str) -> str:
+#     relevant_chunks = retrieve_relevant_chunks(video_id, question)
  
-    # Use content_en (translated) for the LLM's context, not the raw
-    # transcript text — this is what retrieval was matched against, and
-    # it's far more reliable for the model to reason over than Hinglish text.
-    context = "\n\n".join(
-        f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
+#     # Use content_en (translated) for the LLM's context, not the raw
+#     # transcript text — this is what retrieval was matched against, and
+#     # it's far more reliable for the model to reason over than Hinglish text.
+#     context = "\n\n".join(
+#         f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
+#     )
+ 
+#     completion = openai_client.chat.completions.create(
+#         model="gpt-4o-mini",
+#         messages=[
+#             {
+#                 "role": "system",
+#                 "content": (
+#                     "You answer questions about a YouTube video using only the transcript "
+#                     "excerpts provided. Each excerpt is tagged with its timestamp. Cite the "
+#                     "relevant timestamp(s) in your answer. If the excerpts don't contain the "
+#                     "answer, say so plainly instead of guessing."
+#                 ),
+#             },
+#             {
+#                 "role": "user",
+#                 "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
+#             },
+#         ],
+#     )
+ 
+#     return completion.choices[0].message.content
+ 
+ 
+# def answer_with_history(video_id: str, question: str, history: list[dict]) -> str:
+#     relevant_chunks = retrieve_relevant_chunks(video_id, question)
+ 
+#     context = "\n\n".join(
+#         f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
+#     )
+ 
+#     messages = [
+#         {
+#             "role": "system",
+#             "content": (
+#                 "You answer questions about a YouTube video using only the transcript "
+#                 "excerpts provided. Each excerpt is tagged with its timestamp. Cite the "
+#                 "relevant timestamp(s) in your answer. If the excerpts don't contain the "
+#                 "answer, say so plainly instead of guessing. Use the earlier conversation "
+#                 "to understand follow-up questions and pronouns like 'that' or 'it'."
+#             ),
+#         },
+#     ]
+#     messages.extend(history)
+#     messages.append({
+#         "role": "user",
+#         "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
+#     })
+ 
+#     completion = openai_client.chat.completions.create(
+#         model="gpt-4o-mini",
+#         messages=messages,
+#     )
+ 
+#     return completion.choices[0].message.content
+
+
+# REPLACE answer_question and answer_with_history in Store.py with this block.
+# Behaviour is unchanged; generation is split out so it can be evaluated alone,
+# and rag_answer returns the retrieved chunks so the end-to-end eval can score them.
+
+def _build_context(chunks: list[dict]) -> str:
+    return "\n\n".join(
+        f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in chunks
     )
- 
-    completion = openai_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You answer questions about a YouTube video using only the transcript "
-                    "excerpts provided. Each excerpt is tagged with its timestamp. Cite the "
-                    "relevant timestamp(s) in your answer. If the excerpts don't contain the "
-                    "answer, say so plainly instead of guessing."
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
-            },
-        ],
-    )
- 
-    return completion.choices[0].message.content
- 
- 
-def answer_with_history(video_id: str, question: str, history: list[dict]) -> str:
-    relevant_chunks = retrieve_relevant_chunks(video_id, question)
- 
-    context = "\n\n".join(
-        f"[{_format_timestamp(c['start_time'])}] {c['content_en']}" for c in relevant_chunks
-    )
- 
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You answer questions about a YouTube video using only the transcript "
-                "excerpts provided. Each excerpt is tagged with its timestamp. Cite the "
-                "relevant timestamp(s) in your answer. If the excerpts don't contain the "
-                "answer, say so plainly instead of guessing. Use the earlier conversation "
-                "to understand follow-up questions and pronouns like 'that' or 'it'."
-            ),
-        },
-    ]
-    messages.extend(history)
+
+
+def generate_answer(question: str, context: str, history: list[dict] = None) -> str:
+    """Generation only: answer from the given context."""
+    messages = [{
+        "role": "system",
+        "content": (
+            "You answer questions about a YouTube video using only the transcript "
+            "excerpts provided. Each excerpt is tagged with its timestamp. Cite the "
+            "relevant timestamp(s) in your answer. If the excerpts don't contain the "
+            "answer, say so plainly instead of guessing. Use the earlier conversation "
+            "to understand follow-up questions and pronouns like 'that' or 'it'."
+        ),
+    }]
+    messages.extend(history or [])
     messages.append({
         "role": "user",
         "content": f"Transcript excerpts:\n\n{context}\n\nQuestion: {question}",
     })
- 
-    completion = openai_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages,
-    )
- 
+    completion = openai_client.chat.completions.create(model="gpt-4o-mini", messages=messages)
     return completion.choices[0].message.content
+
+
+def rag_answer(video_id: str, question: str, history: list[dict] = None, k: int = 5):
+    """Retrieve + generate. Returns (answer, retrieved_chunks)."""
+    chunks = retrieve_relevant_chunks(video_id, question, k)
+    return generate_answer(question, _build_context(chunks), history), chunks
+
+
+def answer_question(video_id: str, question: str) -> str:
+    return rag_answer(video_id, question)[0]
+
+
+def answer_with_history(video_id: str, question: str, history: list[dict]) -> str:
+    return rag_answer(video_id, question, history)[0]
 
 
 

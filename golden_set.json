@@ -1,0 +1,344 @@
+[
+  {
+    "question": "What problem is the YouTube Chat RAG system designed to solve?",
+    "expected_output": "It lets users ask questions about a YouTube video and receive answers without watching the entire video, which is especially useful for long videos such as podcasts and lectures.",
+    "golden_context": [
+      "[~1:02-2:43] The speaker proposes a RAG-based system that lets users chat with a YouTube video in real time, ask whether a topic was discussed, request a five-bullet summary, or clarify a point in a lecture."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What two user-interface options does the speaker suggest for the YouTube Chat project?",
+    "expected_output": "A Chrome extension with a chat interface alongside YouTube, or a Streamlit website where users paste a video link and chat about the video.",
+    "golden_context": [
+      "[~2:55-4:22; 33:44-34:22] The speaker suggests building either a Chrome extension that opens a chat interface while a video plays or a Streamlit website where the user submits a YouTube link and then chats about the video."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Where does the speaker initially build the RAG system, and why?",
+    "expected_output": "The speaker builds it in a Google Colab notebook because the focus is on RAG functionality rather than the user interface.",
+    "golden_context": [
+      "[~3:56-4:30] The speaker says that because the focus is RAG, he will not concentrate much on the UI and will build the system inside Google Colab."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Why does the speaker choose the YouTube Transcript API instead of LangChain's YouTube loader?",
+    "expected_output": "In the speaker's experiments, the LangChain YouTube loader worked for some videos but failed for others, so he chose the YouTube Transcript API.",
+    "golden_context": [
+      "[~5:53-6:29] The speaker explains that the LangChain YouTube loader was somewhat buggy: it worked correctly for some videos but the code failed for others. He therefore uses the YouTube Transcript API."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What two inputs does the demonstrated transcript-fetching function require?",
+    "expected_output": "The YouTube video ID and the desired transcript language.",
+    "golden_context": [
+      "[~10:43-11:03] The speaker says to provide the video ID and specify the language in which the transcript is required."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Why might requesting an English transcript fail for a Hindi YouTube video?",
+    "expected_output": "The video may not have an English transcript available. The speaker suggests requesting Hindi instead when that is the available transcript language.",
+    "golden_context": [
+      "[~13:13-13:47] The speaker demonstrates an error indicating that the selected video does not have an English transcript, then changes the requested language to Hindi and successfully loads the Hindi transcript."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Which text splitter and settings does the speaker demonstrate?",
+    "expected_output": "The RecursiveCharacterTextSplitter with a chunk size of 1,000 and a chunk overlap of 200.",
+    "golden_context": [
+      "[~14:47-15:46] The speaker says the transcript is split using RecursiveCharacterTextSplitter, with chunk size 1,000 and chunk overlap 200. The example produces 168 chunks."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "How many chunks does the speaker report after splitting the example transcript?",
+    "expected_output": "The speaker reports 168 chunks.",
+    "golden_context": [
+      "[~15:08-15:46] After applying the text splitter to the long podcast transcript, the speaker says that 168 chunks have been created."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Which embedding provider and vector store are used in the code demonstration?",
+    "expected_output": "The speaker uses an OpenAI embedding model and FAISS as the vector store.",
+    "golden_context": [
+      "[~15:53-16:52] The speaker selects an OpenAI embeddings model and uses FAISS to store the embedded transcript chunks."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What tasks make up the indexing stage in the demonstrated RAG pipeline?",
+    "expected_output": "Load the YouTube transcript, split it into chunks, generate embeddings for the chunks, and store those vectors in a vector store.",
+    "golden_context": [
+      "[~6:37-7:13; 16:52-17:06] The speaker summarizes indexing as loading the document or transcript, splitting the text, embedding the chunks, and storing them in the vector store."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does the retriever receive as input and return as output?",
+    "expected_output": "It receives a query and returns a list of relevant documents or chunks.",
+    "golden_context": [
+      "[~18:50-19:11] The speaker explicitly states that the retriever takes a query as input and returns a list of documents as output."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "How many documents does the example similarity-search retriever return, and why?",
+    "expected_output": "It returns four documents because the retriever is configured to retrieve four of the most similar results.",
+    "golden_context": [
+      "[~17:41-18:50] The speaker creates a similarity-search retriever and configures it to return the four most similar vectors/documents."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does the prompt instruct the LLM to do when the supplied context is insufficient?",
+    "expected_output": "It instructs the LLM to say that it does not know.",
+    "golden_context": [
+      "[~19:32-20:03] The prompt template says: answer only from the provided transcript context; if the context is insufficient, just say you don't know."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What two input variables does the prompt template require?",
+    "expected_output": "The prompt template requires `context` and `question`.",
+    "golden_context": [
+      "[~19:44-20:11] The speaker describes the prompt template as having two input variables: context and question."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Why does the code concatenate the retrieved documents before passing them to the prompt?",
+    "expected_output": "The prompt expects a context string, so the code extracts each document's page content and joins the contents into one large string.",
+    "golden_context": [
+      "[~20:46-22:04] The speaker explains that the four retrieved documents cannot simply be supplied as separate items to this prompt; their page contents are concatenated into a single context string."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What are the four main stages of the RAG workflow described in the video?",
+    "expected_output": "Indexing, retrieval, augmentation, and generation.",
+    "golden_context": [
+      "[~7:03-8:43; 24:10-24:28] The speaker describes indexing the transcript and storing embeddings, retrieving relevant chunks, combining the context with the query in a prompt (called augmentation in the video), and generating the response with the LLM."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Why does the speaker combine the individual RAG components into a LangChain chain?",
+    "expected_output": "To avoid manually invoking the retriever, prompt, and LLM separately, and instead execute the retrieval-and-generation flow with a single `invoke` call.",
+    "golden_context": [
+      "[~24:22-25:13] The speaker says that manually calling each stage is not ideal and proposes a chain so each component's output automatically becomes the next component's input, allowing the full pipeline to run with one invoke call."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Which LangChain components are used to build the parallel chain?",
+    "expected_output": "RunnableParallel, RunnablePassthrough, and RunnableLambda.",
+    "golden_context": [
+      "[~27:25-29:25] The speaker names RunnableParallel for parallel processing, RunnablePassthrough to preserve the question, and RunnableLambda to wrap the document-formatting function."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does the `format_docs` function do in the chain?",
+    "expected_output": "It extracts the text content from retrieved documents, concatenates the content, and returns a single context string.",
+    "golden_context": [
+      "[~27:59-29:42] The speaker wraps the document-merging code in a function named format_docs. It receives retrieved documents, extracts their text, concatenates it, and returns the result."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does RunnablePassthrough do in the demonstrated parallel chain?",
+    "expected_output": "It passes the original question through unchanged so it can be supplied alongside the retrieved context.",
+    "golden_context": [
+      "[~29:42-30:50] The speaker explains that the question branch uses RunnablePassthrough because the input question should also be available as an output of the parallel chain."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What components make up the main generation chain after the parallel chain?",
+    "expected_output": "The prompt template, the LLM, and a StrOutputParser.",
+    "golden_context": [
+      "[~31:03-31:39] The speaker creates a StrOutputParser to return a string and connects the prompt template, LLM, and parser as the main chain."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Which four RAG evaluation metrics does the speaker mention?",
+    "expected_output": "Faithfulness, answer relevancy, context precision, and context recall.",
+    "golden_context": [
+      "[~34:54-35:52] The speaker lists faithfulness, answer relevancy, context precision, and context recall as metrics supported by RAGAS."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "How does the speaker distinguish context precision from context recall?",
+    "expected_output": "Context precision concerns how useful the retrieved context is for answering the question. Context recall concerns whether the useful information available in the source was successfully retrieved.",
+    "golden_context": [
+      "[~35:26-35:52] The speaker describes context precision as measuring how useful the retrieved context is for answering, and context recall as measuring whether the useful information in the vector store was retrieved."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is LangSmith used for in the context of this RAG pipeline?",
+    "expected_output": "The speaker describes LangSmith as a tracing tool that helps inspect the pipeline's stages and check whether they are working correctly.",
+    "golden_context": [
+      "[~35:58-36:17] The speaker says LangSmith can be used for tracing and that tracers can be added at different stages to inspect whether the pipeline is functioning correctly."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What two transcript-ingestion improvements does the speaker suggest for imperfect or non-English transcripts?",
+    "expected_output": "Correct errors in automatically generated transcripts and translate transcripts from Hindi or another language into English.",
+    "golden_context": [
+      "[~36:34-37:14] The speaker notes that automatically generated transcripts can contain errors and suggests fixing them. He also suggests translating Hindi or other-language transcripts into English during document ingestion."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What limitation of RecursiveCharacterTextSplitter motivates the suggestion to use a semantic chunker?",
+    "expected_output": "A chunk boundary may fall in the middle of a paragraph. The speaker suggests a semantic chunker as an alternative.",
+    "golden_context": [
+      "[~37:14-37:35] The speaker explains that recursive character splitting can divide text in the middle of a paragraph and suggests trying a semantic chunker."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is query rewriting intended to improve before retrieval?",
+    "expected_output": "It improves vague or poorly phrased user queries, potentially making the retrieval process more effective.",
+    "golden_context": [
+      "[~38:06-38:26] The speaker suggests using an LLM to rewrite a query because user questions can be vague or not very meaningful; improving the query can improve retrieval."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is multi-query generation in the video?",
+    "expected_output": "It generates multiple queries from one original query to capture different perspectives and potentially improve retrieval when the original query is vague.",
+    "golden_context": [
+      "[~38:26-38:44] The speaker explains that multiple queries can be generated from one query, capturing different perspectives and improving retrieval."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is hybrid retrieval, according to the speaker?",
+    "expected_output": "It combines semantic search with keyword search and merges the results.",
+    "golden_context": [
+      "[~39:15-39:29] The speaker says the current example uses semantic search only, but semantic search and keyword search can be combined and their results merged."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is reranking intended to do in the retrieval pipeline?",
+    "expected_output": "It creates a new ranking of the retrieved documents, potentially using an LLM, to improve the order of relevance and retrieval performance.",
+    "golden_context": [
+      "[~39:29-39:55] The speaker explains that current results are ordered by similarity score and that reranking uses an LLM to create a new ranking of retrieved documents."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is contextual compression intended to remove?",
+    "expected_output": "It removes unnecessary or less useful text from retrieved documents while retaining the meaningful portions.",
+    "golden_context": [
+      "[~39:55-40:24] The speaker describes contextual compression as retaining the meaningful parts of retrieved documents and removing content that is not useful, reducing wasted prompt space."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does answer grounding mean in the video?",
+    "expected_output": "Explicitly instructing the LLM to answer from the supplied context rather than inventing facts or hallucinating.",
+    "golden_context": [
+      "[~40:49-41:15] The speaker says answer grounding means telling the LLM to answer only from the context and not create facts independently or hallucinate."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Why is context-window optimization useful?",
+    "expected_output": "LLMs have input-token limits. Trimming the context to retain useful information can help prevent the prompt from exceeding those limits.",
+    "golden_context": [
+      "[~41:15-41:57] The speaker explains that LLMs can process only a limited number of tokens and suggests trimming retrieved context so useful content remains within the context-window limit."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What does answer with citation mean in this RAG discussion?",
+    "expected_output": "The model provides an answer and identifies the part of the supplied context from which the answer was derived.",
+    "golden_context": [
+      "[~42:04-42:23] The speaker suggests instructing the LLM to indicate which part of the context supports an answer, describing this as citations during generation."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "How does multimodal RAG differ from the text-only RAG system demonstrated?",
+    "expected_output": "The demonstrated system handles text input and text output, whereas multimodal RAG can process multiple modalities such as images, text, and video.",
+    "golden_context": [
+      "[~43:03-43:31] The speaker says the current system works only with text, while a multimodal RAG system can process images, text, and videos."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What makes agentic RAG different from a chatbot that only answers questions?",
+    "expected_output": "Agentic RAG can perform additional tasks needed to answer a question, such as browsing a web application, retrieving results, combining them with context, and then generating an answer.",
+    "golden_context": [
+      "[~43:31-44:20] The speaker explains that agentic RAG operates like an AI agent and may browse the internet through a web application when additional information is needed to answer a question."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "What is the purpose of memory-based RAG?",
+    "expected_output": "It uses information from previous conversations to personalize later answers and maintain continuity across interactions.",
+    "golden_context": [
+      "[~44:20-44:45] The speaker describes a memory-based RAG system that can remember what a user asked a week earlier and use that previous conversational context in a later answer."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  },
+  {
+    "question": "Does the speaker plan to cover all advanced RAG techniques in the current LangChain playlist?",
+    "expected_output": "No. The speaker says advanced RAG techniques will be covered in a separate playlist after the LangChain playlist is completed.",
+    "golden_context": [
+      "[~45:17-45:43] The speaker clarifies that the advanced techniques mentioned will not all be covered in the current LangChain playlist; a separate Advanced RAG playlist is planned afterward."
+    ],
+    "answer_start": null,
+    "answer_end": null
+  }
+]
